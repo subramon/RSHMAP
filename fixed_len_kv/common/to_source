@@ -1,0 +1,2 @@
+# TODO
+export LUA_PATH="/home/subramon/?.lua;/home/subramon/RSHMAP/utils/?.lua;;"
