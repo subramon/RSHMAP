@@ -8,8 +8,8 @@ local fns_to_over_ride = {
   -- "set_hash",  -- will keep default 
   "val_update", 
 }
-local optional_src_files =  {}
+local ove_rides =  {}
 for k, v in ipairs(fns_to_over_ride) do 
-  optional_src_files[k] = prefix .. repo .. v .. ".c"
+  ove_rides[k] = prefix .. repo .. v .. ".c"
 end
-return optional_src_files
+return ove_rides

@@ -9,7 +9,7 @@
 
 //START_FUNC_DECL
 int
-rs_hmap_freeze(
+__TMPL___rs_hmap_freeze(
     __TMPL___rs_hmap_t *ptr_hmap, 
     const char * const dir,
     const char * const meta_file_name,

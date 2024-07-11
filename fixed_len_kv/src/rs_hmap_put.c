@@ -5,6 +5,8 @@
  * => If the key is already present, return its associated value.
  * => Otherwise, on successful insert, return the given value.
  */
+#include <stdint.h>
+#include <stdbool.h>
 #include "calc_new_size.h"
 #include "rs_hmap_common.h"
 #include "__TMPL___rs_hmap_struct.h"

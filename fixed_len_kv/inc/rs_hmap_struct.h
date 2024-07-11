@@ -5,7 +5,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <dlfcn.h>
-#include "__TMPL___rs_hmap_types.h"
+#include "__TMPL___rs_hmap_key_type.h"
+#include "__TMPL___rs_hmap_val_type.h"
 #include "rs_hmap_config.h"
 
 typedef struct __TMPL___rs_hmap_kv_t { 

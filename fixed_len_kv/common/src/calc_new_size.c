@@ -1,4 +1,5 @@
 #include "incs.h"
+#include <stdint.h>
 #include "rs_hmap_common.h"
 #include "prime_geq.h"
 #include "calc_new_size.h"

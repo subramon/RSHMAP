@@ -3,29 +3,38 @@ local plfile  = require 'pl.file'
 
 local qcflags = [[ -std=gnu99  -fPIC      -O3  -Wall -W -Waggregate-return -Wcast-align -Wmissing-prototypes -Wnested-externs -Wshadow -Wwrite-strings -Wunused-variable  -Wunused-parameter -Wno-pedantic -fopenmp -Wno-unused-label  -Wmissing-declarations -Wredundant-decls -Wnested-externs  -Wstrict-prototypes -Wmissing-prototypes -Wpointer-arith  -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings  -Wold-style-definition -Wsuggest-attribute=noreturn ]]
 
-local is_in = require 'Q/UTILS/lua/is_in'
-local exec = require 'Q/UTILS/lua/exec_and_capture_stdout'
-local do_subs = require 'Q/UTILS/lua/do_subs'
-local extract_func_decl = require 'Q/UTILS/lua/extract_func_decl'
+local is_in = require 'RSUTILS/lua/is_in'
+local exec = require 'RSUTILS/lua/exec_and_capture_stdout'
+local do_subs = require 'RSUTILS/lua/do_subs'
+local extract_func_decl = require 'RSUTILS/lua/extract_func_decl'
 
 assert(type(arg) == "table")
 
-local git_root = assert(arg[1])
-local tmpl_val = assert(arg[2])
-assert(plpath.isdir(git_root))
+local hmap_root = assert(arg[1])
+local util_root = assert(arg[2])
+local tmpl_val  = assert(arg[3])
+assert(plpath.isdir(hmap_root))
+assert(plpath.isdir(util_root))
 assert(#tmpl_val > 0)
 
-local root_dir = git_root .. "/RSHMAP/fixed_len_kv"
+local root_dir = hmap_root .. "/RSHMAP/fixed_len_kv"
 local src_tmpl_dir = root_dir .. "/src/"
 local inc_tmpl_dir = root_dir .. "/inc/"
 
-local incs = "-I./inc/ -I./gen_inc/ -I" .. root_dir .. "/common/inc/ "
-local optional_src_files = require 'optional_files' 
+local I = {}
+I[#I+1] = "-I./inc/ "
+I[#I+1] = " -I./gen_inc/ "
+I[#I+1] = " -I" .. hmap_root .. "/RSHMAP/fixed_len_kv/common/inc/ "
+I[#I+1] = " -I" .. util_root .. "/RSUTILS/inc/ "
+local incs = table.concat(I, " ")
+
+local over_rides = require 'over_rides'
 -- TODO Do more testing of optional files 
-assert(type(optional_src_files) == "table")
+assert(type(over_rides) == "table")
 --= START checks 
 mandatory_inc_files =  {
-  tmpl_val .. "_rs_hmap_types.h", 
+  tmpl_val .. "_rs_hmap_key_type.h", 
+  tmpl_val .. "_rs_hmap_val_type.h", 
 }
 
 local gen_inc_files = {
@@ -55,7 +64,7 @@ local gen_src_files = {
 local T = {}
 for _, v in ipairs(gen_src_files) do 
   local x = tmpl_val .. "_" .. v
-  if ( is_in(x, optional_src_files) ) then
+  if ( is_in(x, over_rides) ) then
     print("Not using default file " .. v)
   else
     T[#T+1] = v
@@ -70,13 +79,6 @@ assert(plpath.isdir("./inc/"))
 assert(plpath.isdir("./src/"))
 if ( not plpath.isdir("./gen_inc/") ) then plpath.mkdir("./gen_inc/") end
 if ( not plpath.isdir("./gen_src/") ) then plpath.mkdir("./gen_src/") end
-
---[[
-for k, v in pairs(optional_src_files) do 
-  local src_file = "./src/" .. v
-  assert(plpath.isfile(src_file), "File not found " .. src_file)
-end
---]]
 
 assert(type(mandatory_inc_files) == "table")
 for k, v in pairs(mandatory_inc_files) do 
@@ -104,7 +106,7 @@ for k, v in pairs(gen_src_files) do
   assert(do_subs(from, to, subs))
 end
 -- generate function declarations
-for k, v in pairs(optional_src_files) do 
+for k, v in pairs(over_rides) do 
   local from = "./src/" .. v 
   local to   = "./gen_inc/" .. v
         to   = string.gsub(to, "%.c", ".h")
@@ -141,7 +143,7 @@ for k, v in pairs(gen_src_files) do
   assert(plpath.isfile(doto), "File not found " .. doto)
   dotos[#dotos +1] = doto
 end
-for k, v in pairs(optional_src_files) do 
+for k, v in pairs(over_rides) do 
   local dotc = "./src/" .. v
   local doto = string.gsub(dotc, "%.c", ".o")
   assert(plpath.isfile(dotc), "File not found " .. dotc)
