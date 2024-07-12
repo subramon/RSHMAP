@@ -1,3 +1,0 @@
-  local filename = "./inc/" .. v
-  assert(plpath.isfile(filename), "File not found " .. filename)
-end

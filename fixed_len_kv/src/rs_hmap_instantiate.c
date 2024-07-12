@@ -64,6 +64,7 @@ __TMPL___rs_hmap_instantiate(
   H->divinfo = fast_div32_init(H->size);
   H->hashkey = mk_hmap_key();
 
+  H->stop_check_val = 987654321;
 BYE:
   return status;
 }
