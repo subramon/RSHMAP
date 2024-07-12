@@ -1,7 +1,7 @@
 local plpath  = require 'pl.path'
 local plfile  = require 'pl.file'
 
-local qcflags = [[ -std=gnu99  -fPIC      -O3  -Wall -W -Waggregate-return -Wcast-align -Wmissing-prototypes -Wnested-externs -Wshadow -Wwrite-strings -Wunused-variable  -Wunused-parameter -Wno-pedantic -fopenmp -Wno-unused-label  -Wmissing-declarations -Wredundant-decls -Wnested-externs  -Wstrict-prototypes -Wmissing-prototypes -Wpointer-arith  -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings  -Wold-style-definition -Wsuggest-attribute=noreturn ]]
+QCFLAGS= [[ -std=gnu99  -fPIC -g -Wall -W -Waggregate-return -Wcast-align -Wmissing-prototypes -Wnested-externs -Wshadow -Wwrite-strings -Wunused-variable  -Wunused-parameter -Wno-pedantic -fopenmp -Wno-unused-label  -Wmissing-declarations -Wredundant-decls -Wnested-externs  -Wstrict-prototypes -Wmissing-prototypes -Wpointer-arith  -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings  -Wold-style-definition -Wsuggest-attribute=noreturn ]]
 
 local is_in = require 'RSUTILS/lua/is_in'
 local exec = require 'RSUTILS/lua/exec_and_capture_stdout'
@@ -137,7 +137,7 @@ for k, v in pairs(gen_src_files) do
   assert(plpath.isfile(dotc), "File not found " .. dotc)
   plfile.delete(doto)
   local q_cmd = string.format("gcc -c %s %s %s -o %s",
-         qcflags, incs, dotc, doto)
+         QCFLAGS, incs, dotc, doto)
   print("Creating " .. doto)
   assert(exec(q_cmd), q_cmd)
   assert(plpath.isfile(doto), "File not found " .. doto)
@@ -149,7 +149,7 @@ for k, v in pairs(over_rides) do
   assert(plpath.isfile(dotc), "File not found " .. dotc)
   plfile.delete(doto)
   local q_cmd = string.format("gcc -c %s %s %s -o %s",
-         qcflags, incs, dotc, doto)
+         QCFLAGS, incs, dotc, doto)
   print("Creating " .. doto)
   assert(exec(q_cmd), q_cmd)
   assert(plpath.isfile(doto), "File not found " .. doto)
