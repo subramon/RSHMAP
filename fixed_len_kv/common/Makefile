@@ -58,23 +58,23 @@ INCFILES += ./inc/prime_geq.h
 ./src/spooky_hash.o : QCFLAGS += -Wno-implicit-fallthrough -Wno-cast-qual
 #---------------
 ./inc/get_time_usec.h: ./src/get_time_usec.c
-	lua ../../utils/cli_extract_func_decl.lua src/get_time_usec.c ./inc/
+	lua ../utils/cli_extract_func_decl.lua src/get_time_usec.c ./inc/
 ./inc/mk_dir_file_name.h: ./src/mk_dir_file_name.c
-	lua ../../utils/cli_extract_func_decl.lua src/mk_dir_file_name.c ./inc/
+	lua ../utils/cli_extract_func_decl.lua src/mk_dir_file_name.c ./inc/
 ./inc/rdtsc.h: ./src/rdtsc.c
-	lua ../../utils/cli_extract_func_decl.lua src/rdtsc.c ./inc/
+	lua ../utils/cli_extract_func_decl.lua src/rdtsc.c ./inc/
 ./inc/rs_mmap.h: ./src/rs_mmap.c
-	lua ../../utils/cli_extract_func_decl.lua src/rs_mmap.c ./inc/
+	lua ../utils/cli_extract_func_decl.lua src/rs_mmap.c ./inc/
 
 ./inc/calc_new_size.h: ./src/calc_new_size.c
-	lua ../../utils/cli_extract_func_decl.lua src/calc_new_size.c ./inc/
-	lua ../../utils/cli_extract_func_decl.lua src/rs_mmap.c ./inc/
+	lua ../utils/cli_extract_func_decl.lua src/calc_new_size.c ./inc/
+	lua ../utils/cli_extract_func_decl.lua src/rs_mmap.c ./inc/
 ./inc/mk_hmap_key.h: ./src/mk_hmap_key.c
-	lua ../../utils/cli_extract_func_decl.lua src/mk_hmap_key.c ./inc/
+	lua ../utils/cli_extract_func_decl.lua src/mk_hmap_key.c ./inc/
 ./inc/prime_geq.h: ./src/prime_geq.c
-	lua ../../utils/cli_extract_func_decl.lua src/prime_geq.c ./inc/
+	lua ../utils/cli_extract_func_decl.lua src/prime_geq.c ./inc/
 ./inc/set_probe_loc.h: ./src/set_probe_loc.c
-	lua ../../utils/cli_extract_func_decl.lua src/set_probe_loc.c ./inc/
+	lua ../utils/cli_extract_func_decl.lua src/set_probe_loc.c ./inc/
 
 
 ./src/calc_new_size.o: ./inc/prime_geq.h ./inc/calc_new_size.h

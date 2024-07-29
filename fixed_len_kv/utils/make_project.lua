@@ -17,15 +17,15 @@ assert(plpath.isdir(hmap_root))
 assert(plpath.isdir(util_root))
 assert(#tmpl_val > 0)
 
-local root_dir = hmap_root .. "/RSHMAP/fixed_len_kv"
+local root_dir = hmap_root .. "/fixed_len_kv"
 local src_tmpl_dir = root_dir .. "/src/"
 local inc_tmpl_dir = root_dir .. "/inc/"
 
 local I = {}
 I[#I+1] = "-I./inc/ "
 I[#I+1] = " -I./gen_inc/ "
-I[#I+1] = " -I" .. hmap_root .. "/RSHMAP/fixed_len_kv/common/inc/ "
-I[#I+1] = " -I" .. util_root .. "/RSUTILS/inc/ "
+I[#I+1] = " -I" .. hmap_root .. "/fixed_len_kv/common/inc/ "
+I[#I+1] = " -I" .. util_root .. "/inc/ "
 local incs = table.concat(I, " ")
 
 local over_rides = require 'over_rides'
