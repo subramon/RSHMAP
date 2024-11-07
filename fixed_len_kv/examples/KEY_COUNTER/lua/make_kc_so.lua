@@ -1,6 +1,6 @@
 local cutils = require 'libcutils'
-local do_subs       = require 'Q/UTILS/lua/do_subs' 
-local gen_code      = require 'Q/UTILS/lua/gen_code' 
+local do_subs       = require 'RSUTILS/lua/do_subs' 
+local gen_code      = require 'RSUTILS/lua/gen_code' 
 local simple_do_subs       = 
   require 'Q/TMPL_FIX_HASHMAP/KEY_COUNTER/lua/simple_do_subs'
 local gen_rsx_types = 

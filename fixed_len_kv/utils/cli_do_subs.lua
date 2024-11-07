@@ -1,4 +1,4 @@
-local do_subs = require 'Q/UTILS/lua/do_subs'
+local do_subs = require 'RSUTILS/lua/do_subs'
 
 assert(type(arg) == "table")
 local infile  = assert(arg[1])
