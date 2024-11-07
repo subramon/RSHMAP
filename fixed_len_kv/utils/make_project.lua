@@ -74,15 +74,15 @@ gen_src_files = T
 
 --=  STOP checks 
 
-assert(plpath.isdir("./inc/"))
-assert(plpath.isdir("./src/"))
-if ( not plpath.isdir("./gen_inc/") ) then plpath.mkdir("./gen_inc/") end
-if ( not plpath.isdir("./gen_src/") ) then plpath.mkdir("./gen_src/") end
+assert(cutils.isdir("./inc/"))
+assert(cutils.isdir("./src/"))
+if ( not cutils.isdir("./gen_inc/") ) then cutils.makepath("./gen_inc/") end
+if ( not cutils.isdir("./gen_src/") ) then cutils.makepath("./gen_src/") end
 
 assert(type(mandatory_inc_files) == "table")
 for k, v in pairs(mandatory_inc_files) do 
   local filename = "./inc/" .. v
-  assert(plpath.isfile(filename), "File not found " .. filename)
+  assert(cutils.isfile(filename), "File not found " .. filename)
 end
 
 -- generate files 
@@ -91,7 +91,7 @@ subs.__TMPL__ = tmpl_val
 
 for k, v in pairs(gen_inc_files) do 
   local from = inc_tmpl_dir .. v 
-  assert(plpath.isfile(from), "File not found " .. from)
+  assert(cutils.isfile(from), "File not found " .. from)
   local to = "./gen_inc/" .. tmpl_val .. "_" .. v 
   cutils.delete(to)
   assert(do_subs(from, to, subs))
@@ -99,7 +99,7 @@ end
 -- generate .c files 
 for k, v in pairs(gen_src_files) do 
   local from = src_tmpl_dir .. v 
-  assert(plpath.isfile(from), "File not found " .. from)
+  assert(cutils.isfile(from), "File not found " .. from)
   local to = "./gen_src/" .. tmpl_val .. "_" .. v 
   cutils.delete(to)
   assert(do_subs(from, to, subs))
@@ -133,25 +133,25 @@ local dotos = {}
 for k, v in pairs(gen_src_files) do 
   local dotc = "./gen_src/" .. tmpl_val .. "_" .. v 
   local doto = string.gsub(dotc, "%.c", ".o")
-  assert(plpath.isfile(dotc), "File not found " .. dotc)
+  assert(cutils.isfile(dotc), "File not found " .. dotc)
   cutils.delete(doto)
   local q_cmd = string.format("gcc -c %s %s %s -o %s",
          QCFLAGS, incs, dotc, doto)
   print("Creating " .. doto)
   assert(exec(q_cmd), q_cmd)
-  assert(plpath.isfile(doto), "File not found " .. doto)
+  assert(cutils.isfile(doto), "File not found " .. doto)
   dotos[#dotos +1] = doto
 end
 for k, v in pairs(over_rides) do 
   local dotc = "./src/" .. v
   local doto = string.gsub(dotc, "%.c", ".o")
-  assert(plpath.isfile(dotc), "File not found " .. dotc)
+  assert(cutils.isfile(dotc), "File not found " .. dotc)
   cutils.delete(doto)
   local q_cmd = string.format("gcc -c %s %s %s -o %s",
          QCFLAGS, incs, dotc, doto)
   print("Creating " .. doto)
   assert(exec(q_cmd), q_cmd)
-  assert(plpath.isfile(doto), "File not found " .. doto)
+  assert(cutils.isfile(doto), "File not found " .. doto)
   dotos[#dotos +1] = doto
 end
 -- Create .so file 
@@ -162,7 +162,7 @@ local q_cmd = string.format("gcc -shared %s -o %s",
 cutils.delete(sofile)
 print("Creating " .. sofile)
 assert(exec(q_cmd), q_cmd)
-assert(plpath.isfile(sofile), "File not found " .. sofile)
+assert(cutils.isfile(sofile), "File not found " .. sofile)
 print("DONE")
 
 
