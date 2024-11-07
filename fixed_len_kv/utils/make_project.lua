@@ -1,5 +1,4 @@
-local plpath  = require 'pl.path'
-local plfile  = require 'pl.file'
+local cutils = require 'libcutils'
 
 QCFLAGS= [[ -std=gnu99  -fPIC -g -Wall -W -Waggregate-return -Wcast-align -Wmissing-prototypes -Wnested-externs -Wshadow -Wwrite-strings -Wunused-variable  -Wunused-parameter -Wno-pedantic -fopenmp -Wno-unused-label  -Wmissing-declarations -Wredundant-decls -Wnested-externs  -Wstrict-prototypes -Wmissing-prototypes -Wpointer-arith  -Wshadow -Wcast-qual -Wcast-align -Wwrite-strings  -Wold-style-definition -Wsuggest-attribute=noreturn ]]
 
@@ -13,8 +12,8 @@ assert(type(arg) == "table")
 local hmap_root = assert(arg[1])
 local util_root = assert(arg[2])
 local tmpl_val  = assert(arg[3])
-assert(plpath.isdir(hmap_root))
-assert(plpath.isdir(util_root))
+assert(cutils.isdir(hmap_root))
+assert(cutils.isdir(util_root))
 assert(#tmpl_val > 0)
 
 local root_dir = hmap_root .. "/fixed_len_kv"
@@ -94,7 +93,7 @@ for k, v in pairs(gen_inc_files) do
   local from = inc_tmpl_dir .. v 
   assert(plpath.isfile(from), "File not found " .. from)
   local to = "./gen_inc/" .. tmpl_val .. "_" .. v 
-  plfile.delete(to)
+  cutils.delete(to)
   assert(do_subs(from, to, subs))
 end
 -- generate .c files 
@@ -102,7 +101,7 @@ for k, v in pairs(gen_src_files) do
   local from = src_tmpl_dir .. v 
   assert(plpath.isfile(from), "File not found " .. from)
   local to = "./gen_src/" .. tmpl_val .. "_" .. v 
-  plfile.delete(to)
+  cutils.delete(to)
   assert(do_subs(from, to, subs))
 end
 -- generate function declarations
@@ -110,7 +109,7 @@ for k, v in pairs(over_rides) do
   local from = "./src/" .. v 
   local to   = "./gen_inc/" .. v
         to   = string.gsub(to, "%.c", ".h")
-  plfile.delete(to)
+  cutils.delete(to)
   local status = extract_func_decl(from, "./gen_inc/")
   if ( not status ) then 
     error("Unable to  generate function declaration for " .. from)
@@ -123,7 +122,7 @@ for k, v in pairs(gen_src_files) do
   local from = "./gen_src/" .. tmpl_val .. "_" .. v 
   local to   = string.gsub(from, "gen_src", "gen_inc")
         to   = string.gsub(to, "%.c", ".h")
-  plfile.delete(to)
+  cutils.delete(to)
   local status = extract_func_decl(from, "./gen_inc/")
   if ( not status ) then 
     error("Unable to  generate function declaration for " .. from)
@@ -135,7 +134,7 @@ for k, v in pairs(gen_src_files) do
   local dotc = "./gen_src/" .. tmpl_val .. "_" .. v 
   local doto = string.gsub(dotc, "%.c", ".o")
   assert(plpath.isfile(dotc), "File not found " .. dotc)
-  plfile.delete(doto)
+  cutils.delete(doto)
   local q_cmd = string.format("gcc -c %s %s %s -o %s",
          QCFLAGS, incs, dotc, doto)
   print("Creating " .. doto)
@@ -147,7 +146,7 @@ for k, v in pairs(over_rides) do
   local dotc = "./src/" .. v
   local doto = string.gsub(dotc, "%.c", ".o")
   assert(plpath.isfile(dotc), "File not found " .. dotc)
-  plfile.delete(doto)
+  cutils.delete(doto)
   local q_cmd = string.format("gcc -c %s %s %s -o %s",
          QCFLAGS, incs, dotc, doto)
   print("Creating " .. doto)
@@ -160,7 +159,7 @@ dotos = table.concat(dotos, " ")
 local sofile = "lib" .. tmpl_val .. "_rs_hmap.so"
 local q_cmd = string.format("gcc -shared %s -o %s",
          dotos, sofile)
-plfile.delete(sofile)
+cutils.delete(sofile)
 print("Creating " .. sofile)
 assert(exec(q_cmd), q_cmd)
 assert(plpath.isfile(sofile), "File not found " .. sofile)
