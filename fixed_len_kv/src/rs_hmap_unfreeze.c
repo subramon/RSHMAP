@@ -51,6 +51,9 @@ __TMPL___rs_hmap_unfreeze(
   nr = fscanf(fp, "high_water_mark,%f\n", &(H->config.high_water_mark));
   if ( nr != 1 ) { go_BYE(-1);  }
 
+  H->start_check_val = 123456789; // to check integrity of struct
+  H->stop_check_val  = 987654321; // to check integrity of struct
+
   free_if_non_null(fname);
   fclose_if_non_null(fp);
   //--------------------------------------------------
