@@ -22,6 +22,7 @@ __TMPL___rs_hmap_pr(
 
   for ( uint32_t i = 0; i < ptr_hmap->size; i++ ) { 
     if ( !bkt_full[i] ) { continue; }
+    fprintf(fp, "loc:%u,", i); 
     status = __TMPL___rs_hmap_pr_key(&(bkts[i].key), fp);  cBYE(status);
     fprintf(fp, ",");
     status = __TMPL___rs_hmap_pr_val(&(bkts[i].val), fp);  cBYE(status);
