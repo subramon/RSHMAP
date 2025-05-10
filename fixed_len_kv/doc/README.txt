@@ -3,16 +3,20 @@ prefix="foo"
 # Use HELLO_WORLD/ as a template
 
 GIT_ROOT=$HOME # This is directory where you have checked out RSHMAP
-rm -rf foo/
-cp -r $GIT_ROOT/fixed_len_kv/examples/HELLO_WORLD/ foo
-cd foo/
+rm -rf ${prefix}/
+cp -r $GIT_ROOT/fixed_len_kv/examples/HELLO_WORLD/ ${prefix}
+cd ${prefix}/
 rm -rf gen_inc/*.h
 rm -rf gen_src/*.h
-# Create inc/${prefix}_rs_hmap_types.h
-# This is where you define the types of key and value
+rm -rf src/*.o
+rm -rf *.so
+cd ${prefix}/inc
+mv hw1_rs_hmap_key_type.h ${prefix}_rs_hmap_key_type.h
+mv hw1_rs_hmap_val_type.h ${prefix}_rs_hmap_val_type.h
+# Edit the above files to create the key/value you want 
+
 # If you want to over-ride any of the default implementations,
-# specify them in optional_files.lua
-# Create the optional files in src/ 
+# specify them in ${prefix}/over_rides.lua
 # The files that you can over-write are 
 
 # 1) ${prefix}_rs_hmap_val_update.c

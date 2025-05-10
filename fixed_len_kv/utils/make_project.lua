@@ -12,6 +12,13 @@ assert(type(arg) == "table")
 local hmap_root = assert(arg[1])
 local util_root = assert(arg[2])
 local tmpl_val  = assert(arg[3])
+local addnl_incs
+if ( arg[4] ) then 
+  addnl_incs =  arg[4] 
+  assert(type(addnl_incs) == "string")
+  assert(#addnl_incs > 0)
+end
+local tmpl_val  = assert(arg[3])
 assert(cutils.isdir(hmap_root))
 assert(cutils.isdir(util_root))
 assert(#tmpl_val > 0)
@@ -25,6 +32,7 @@ I[#I+1] = "-I./inc/ "
 I[#I+1] = " -I./gen_inc/ "
 I[#I+1] = " -I" .. hmap_root .. "/fixed_len_kv/common/inc/ "
 I[#I+1] = " -I" .. util_root .. "/inc/ "
+I[#I+1] = " -I" .. addnl_incs 
 local incs = table.concat(I, " ")
 
 local over_rides = require 'over_rides'
