@@ -32,7 +32,9 @@ I[#I+1] = "-I./inc/ "
 I[#I+1] = " -I./gen_inc/ "
 I[#I+1] = " -I" .. hmap_root .. "/fixed_len_kv/common/inc/ "
 I[#I+1] = " -I" .. util_root .. "/inc/ "
-I[#I+1] = " -I" .. addnl_incs 
+if ( addnl_incs ) then 
+  I[#I+1] = " -I" .. addnl_incs 
+end
 local incs = table.concat(I, " ")
 
 local over_rides = require 'over_rides'
