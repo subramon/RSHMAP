@@ -60,6 +60,32 @@ __TMPL___rs_hmap_chk(
     }
   }
   if ( ptr_hmap->nitems != chk_nitems ) { go_BYE(-1); }
+  __TMPL___rs_hmap_key_t zero_key; 
+  memset(&zero_key, 0, sizeof(__TMPL___rs_hmap_key_t));
+  __TMPL___rs_hmap_val_t zero_val; 
+  memset(&zero_val, 0, sizeof(__TMPL___rs_hmap_val_t));
+  for ( uint32_t i = 0; i < ptr_hmap->size; i++ ) { 
+    if ( bkt_full[i] ) {
+      if ( memcmp(&zero_val, &(bkts[i].val), 
+            sizeof(__TMPL___rs_hmap_val_t)) == 0 ) { 
+        go_BYE(-1);
+      }
+      if ( memcmp(&zero_key, &(bkts[i].key), 
+            sizeof(__TMPL___rs_hmap_key_t)) == 0 ) { 
+        go_BYE(-1);
+      }
+    }
+    else {
+      if ( memcmp(&zero_val, &(bkts[i].val), 
+            sizeof(__TMPL___rs_hmap_val_t)) != 0 ) { 
+        go_BYE(-1);
+      }
+      if ( memcmp(&zero_key, &(bkts[i].key), 
+            sizeof(__TMPL___rs_hmap_key_t)) != 0 ) { 
+        go_BYE(-1);
+      }
+    }
+  }
   // check that (the hash of) each key is unique 
   hashes = malloc(chk_nitems * sizeof(chk_t));
   return_if_malloc_failed(hashes);
