@@ -1,18 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "macros.h"
+#include "q_macros.h"
 #include "mk_dir_file_name.h"
 
 //START_FUNC_DECL
-char *
+int
 mk_dir_file_name(
     const char * const d,
-    const char * const f
+    const char * const f,
+    char **ptr_fname
     )
 //STOP_FUNC_DECL
 {
   int status = 0;
+  *ptr_fname = NULL;
   char *fname = NULL; 
 
   if ( ( f == NULL ) || ( *f == '\0' ) ) { go_BYE(-1); }
@@ -27,6 +29,7 @@ mk_dir_file_name(
   else {
     strcpy(fname, f);
   }
+  *ptr_fname = fname;
 BYE:
-  if ( status != 0 ) { return NULL; } else { return fname; }
+  return status;
 }
