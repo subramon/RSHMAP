@@ -20,7 +20,7 @@ __TMPL___rs_hmap_unfreeze(
 
   //------------------------------------------------
   if ( meta_file_name == NULL ) { go_BYE(-1); } 
-  fname = mk_dir_file_name(dir, meta_file_name);
+  status = mk_dir_file_name(dir, meta_file_name, &fname); cBYE(status);
   if ( fname == NULL ) { go_BYE(-1); } 
   fp = fopen(fname, "r");
   return_if_fopen_failed(fp, fname, "r");
@@ -58,7 +58,7 @@ __TMPL___rs_hmap_unfreeze(
   fclose_if_non_null(fp);
   //--------------------------------------------------
   if ( bkts_file_name == NULL ) { go_BYE(-1); } 
-  fname = mk_dir_file_name(dir, bkts_file_name);
+  status = mk_dir_file_name(dir, bkts_file_name, &fname); cBYE(status);
   if ( fname == NULL ) { go_BYE(-1); } 
 
   status = rs_mmap(fname, &X, &nX, 0); cBYE(status);
@@ -69,7 +69,7 @@ __TMPL___rs_hmap_unfreeze(
   free_if_non_null(fname);
   //--------------------------------------------------
   if ( full_file_name == NULL ) { go_BYE(-1); } 
-  fname = mk_dir_file_name(dir, full_file_name);
+  status = mk_dir_file_name(dir, full_file_name, &fname); cBYE(status);
   if ( fname == NULL ) { go_BYE(-1); } 
 
   status = rs_mmap(fname, &X, &nX, 0); cBYE(status);
